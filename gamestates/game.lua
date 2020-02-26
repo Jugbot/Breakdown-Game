@@ -61,7 +61,7 @@ function game:init()
   wallBottom = love.physics.newFixture(posBottom, shapeX)
   wallRight:setRestitution(1.0)
   wallLeft:setRestitution(1.0)
-  wallTop:setRestitution(1.0)
+  wallTop:setRestitution(0.5)
   wallBottom:setSensor(true)
   -- bounds shape
   shapeXY = love.physics.newRectangleShape(BOUNDS_WIDTH, BOUNDS_HEIGHT)
@@ -143,7 +143,9 @@ function game:update(dt)
             love.audio.setPosition(-brick:getBody():getX()/BOUNDS_WIDTH, 0, 0)
             love.audio.play(bonusSound)
           end
-          brick:setUserData(nil)
+          if not wallBounds:getBody():isTouching(brick:getBody()) then
+            brick:setUserData(nil)
+          end
         else
           brick:setUserData(fuse - dt)
         end
@@ -212,6 +214,8 @@ function game:draw(dt)
   love.graphics.printf(time, 0, 0, love.graphics.getWidth(), "left")
   love.graphics.printf(drops .. " drops", 0, 0, love.graphics.getWidth(), "right")
   if won() then
+    love.graphics.setColor(0,0,0,0.5)
+    love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
     love.graphics.setColor(green, 0.7)
     love.graphics.printf("GREAT\nSUCCESS", 0, love.graphics.getHeight()/4, love.graphics.getWidth()/2, "center", 0, 2)
     love.graphics.printf("(press 'R')", 0, love.graphics.getHeight()/2, love.graphics.getWidth(), "center")
