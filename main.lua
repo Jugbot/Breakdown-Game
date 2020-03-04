@@ -13,6 +13,10 @@ camera = Camera(0, 0)
 ASPECT_RATIO = 16.0 / 9.0
 BOUNDS_WIDTH = 64.0
 BOUNDS_HEIGHT = BOUNDS_WIDTH * ASPECT_RATIO
+HEIGHT = math.floor(BOUNDS_HEIGHT / 3)
+GOAL_HEIGHT = BOUNDS_HEIGHT / 10
+
+function math.clamp(low, n, high) return math.min(math.max(n, low), high) end
 
 function love.load()
   print(_VERSION)
